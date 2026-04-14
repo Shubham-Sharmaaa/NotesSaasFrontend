@@ -1,20 +1,39 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import LOGO from "../UI/LOGO";
 import { BiLeftArrow, BiShare } from "react-icons/bi";
 
 import { FaCameraRetro } from "react-icons/fa";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { NoteContext } from "../App";
 import Modal from "../components/Modal";
 
 const backendurl = import.meta.env.VITE_BACKEND_URL;
 const EditNote = () => {
-  const location = useLocation();
+  const { id } = useParams();
+
   const context = useContext(NoteContext);
   const navigate = useNavigate();
   const titleref = useRef<HTMLInputElement>(null);
   const bodyref = useRef<HTMLInputElement>(null);
+
   const [hash, sethash] = useState("");
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
+  useEffect(() => {
+    async function fetchnote() {
+      const token = localStorage.getItem("token");
+      const res = await fetch(`${backendurl}/private/get-note/${id}`, {
+        method: "GET",
+        headers: {
+          authorization: "Bearer " + token,
+        },
+      });
+      const data = await res.json();
+      setTitle(data.note.title);
+      setBody(data.note.body);
+    }
+    fetchnote();
+  }, []);
   async function submitUpdatedNote() {
     const title = titleref.current?.value;
     const body = bodyref.current?.value;
@@ -32,15 +51,13 @@ const EditNote = () => {
       body: JSON.stringify({
         title,
         body,
-        id: location?.state?.id,
+        id,
       }),
     });
     const data = await res.json();
     console.log(data);
     console.log(context?.notes);
-    context?.setNotes((notes) =>
-      notes.filter((note) => note._id !== location?.state?.id),
-    );
+    context?.setNotes((notes) => notes.filter((note) => note._id !== id));
 
     context?.setNotes((notes) => [...notes, data.note]);
 
@@ -55,7 +72,7 @@ const EditNote = () => {
         authorization: "Bearer " + token,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ noteId: location?.state?.id }),
+      body: JSON.stringify({ noteId: id }),
     });
     const data = await res.json();
     sethash(data.link);
@@ -102,7 +119,7 @@ const EditNote = () => {
       </div>
       <div className="flex-1  mt-20 ml-30">
         <h2>
-          <input ref={titleref} defaultValue={location?.state?.title} />
+          <input ref={titleref} defaultValue={title} />
         </h2>
         {/* <div>
           <span>Sarah</span>
@@ -110,7 +127,7 @@ const EditNote = () => {
           <span>Public</span>
         </div> */}
         <p>
-          <input ref={bodyref} defaultValue={location?.state?.body} />
+          <input ref={bodyref} defaultValue={body} />
         </p>
       </div>
     </div>

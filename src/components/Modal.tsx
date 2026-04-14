@@ -40,14 +40,37 @@ function Name({
     },
   });
 }
-function Window({
+export function Window({
   children,
   name: windowName,
+  isOpen,
+  setIsOpen,
 }: {
   children: ReactElement<{ oncloseModal: () => void }>;
-  name: string;
+  name?: string;
+  isOpen?: boolean;
+  setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const context = useContext(ModalContext);
+  if (!windowName) {
+    if (!isOpen || !setIsOpen) return null;
+    return createPortal(
+      <div className="fixed top-0 left-0 w-full h-screen backdrop-blur-2xl z-1000 transition-all ">
+        <div className="bg-[#c0bbbb] fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] rounded-lg py-[3.2rem] px-16 transition-all ">
+          <button
+            className="absolute top-0 left-0 p-2"
+            onClick={() => setIsOpen(false)}
+          >
+            close
+          </button>
+          <div>
+            {cloneElement(children, { oncloseModal: () => setIsOpen(false) })}
+          </div>
+        </div>
+      </div>,
+      document.body,
+    );
+  }
   if (!context) return null;
   const { name, close } = context;
   if (name !== windowName) return null;

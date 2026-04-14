@@ -13,7 +13,7 @@ export default function Signin() {
 
         console.log(response);
         localStorage.setItem("token", response.token);
-        navigate("/dashboard");
+        window.location.href = "/dashboard";
       }
     } catch (error) {
       console.log(error);

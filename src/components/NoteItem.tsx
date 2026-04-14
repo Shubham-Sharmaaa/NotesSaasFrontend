@@ -7,13 +7,11 @@ const NoteItem = ({
   title,
   body,
   date,
-
   id,
 }: {
   title: string;
   body: string;
   date: string;
-
   id: string;
 }) => {
   const context = useContext(NoteContext);
@@ -55,7 +53,7 @@ const NoteItem = ({
 
         <span
           className="text-xs text-blue-500 opacity-0 group-hover:opacity-100 transition"
-          onClick={() => navigate("/edit-note", { state: { title, body, id } })}
+          onClick={() => navigate(`/edit-note/${id}`)}
         >
           Open →
         </span>
