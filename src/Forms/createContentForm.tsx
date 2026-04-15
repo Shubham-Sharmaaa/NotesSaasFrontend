@@ -13,7 +13,10 @@ const CreateContentForm = ({ oncloseModal }: { oncloseModal?: () => void }) => {
     const data = {
       title: formData.get("title"),
       body: formData.get("body"),
+      isFavorite: formData.get("isFavorite") === "on",
     };
+    console.log("data ", data);
+
     const res = await axios.post(
       `${backend_url}/private/create-content`,
       data,
@@ -30,6 +33,8 @@ const CreateContentForm = ({ oncloseModal }: { oncloseModal?: () => void }) => {
       title: recieveddata.title,
       body: recieveddata.body,
       createdAt: recieveddata.createdAt,
+      isPinned: recieveddata.isPinned,
+      isFavorite: recieveddata.isFavorite,
     };
     context?.setNotes?.((notes: NoteType[]) => [...notes, newNote]);
     console.log("notes: ", context?.notes);
@@ -41,12 +46,25 @@ const CreateContentForm = ({ oncloseModal }: { oncloseModal?: () => void }) => {
         name="title"
         placeholder="Enter Title"
         className="text-center bg-[#EBEBED] rounded "
+        required
       />
       <input
         name="body"
         placeholder="Enter Body"
         className="text-center bg-[#EBEBED] rounded"
+        required
       />
+      <label className="flex items-center gap-2 cursor-pointer">
+        <span className="text-gray-700">Favorite</span>
+
+        <div className="relative">
+          <input type="checkbox" name="isFavorite" className="sr-only peer" />
+
+          <div className="w-12 h-6 bg-gray-300 rounded-full peer-checked:bg-green-500 transition" />
+
+          <div className="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition peer-checked:translate-x-6" />
+        </div>
+      </label>
       <button className="bg-[#585858] p-2 rounded">Add</button>
     </form>
   );

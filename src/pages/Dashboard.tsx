@@ -19,6 +19,7 @@ const Dashboard = () => {
               key={note._id}
               id={note._id}
               isPinned={note.isPinned}
+              isFavorite={note.isFavorite}
             />
           );
         }
@@ -33,6 +34,7 @@ const Dashboard = () => {
               key={note._id}
               id={note._id}
               isPinned={note.isPinned}
+              isFavorite={note.isFavorite}
             />
           );
         }
