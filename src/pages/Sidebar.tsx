@@ -18,7 +18,7 @@ const Sidebar = () => {
             title="All Notes"
             icon={<IoDocumentTextOutline />}
           />
-          <SidebarItem title="Favourites" icon={<BsStar />} />
+          <SidebarItem to="/favorites" title="Favorites" icon={<BsStar />} />
           <SidebarItem title="Archive" icon={<BiBox />} />
           <SidebarItem title="Trash" icon={<BiTrash />} />
         </ul>

@@ -15,13 +15,13 @@ const SidebarItem = ({
       {to && (
         <NavLink
           to={to}
-          className={`flex  gap-3 items-center [&.active]:bg-gray-600 rounded text-white px-2 py-1 `}
+          className={`flex  gap-3 items-center [&.active]:bg-gray-600 [&.active]:rounded [&.active]:text-white px-2 py-1 `}
         >
           {icon} {title}
         </NavLink>
       )}
       {!to && (
-        <div className="flex gap-3 items-center">
+        <div className="flex gap-3 items-center px-2 py-1">
           {icon} {title}
         </div>
       )}

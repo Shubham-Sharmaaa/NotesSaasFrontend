@@ -23,6 +23,7 @@ import axios from "axios";
 import EditNote from "./pages/EditNote";
 import Refresher from "./components/Refresher";
 import PublicPage from "./pages/PublicPage";
+import FavoritesPage from "./pages/FavoritesPage";
 const backend_url = import.meta.env.VITE_BACKEND_URL;
 const NoteContext = createContext<noteContextType | undefined>(undefined);
 type noteContextType = {
@@ -123,6 +124,7 @@ function App() {
           <Route path="/edit-note/:id" element={<EditNote />} />
           <Route element={<MainWrapper />}>
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/favorites" element={<FavoritesPage />} />
           </Route>
         </Route>
         <Route path="/public/:hash" element={<PublicPage isAuth={isAuth} />} />
