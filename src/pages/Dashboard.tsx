@@ -9,15 +9,34 @@ const Dashboard = () => {
 
   return (
     <div className="grid md:grid-cols-4 p-4 gap-2 sm:grid-cols-3">
-      {context?.notes?.map((note) => (
-        <NoteItem
-          title={note.title}
-          body={note.body}
-          date={note.createdAt}
-          key={note._id}
-          id={note._id}
-        />
-      ))}
+      {context?.notes?.map((note) => {
+        if (note.isPinned) {
+          return (
+            <NoteItem
+              title={note.title}
+              body={note.body}
+              date={note.createdAt}
+              key={note._id}
+              id={note._id}
+              isPinned={note.isPinned}
+            />
+          );
+        }
+      })}
+      {context?.notes?.map((note) => {
+        if (!note.isPinned) {
+          return (
+            <NoteItem
+              title={note.title}
+              body={note.body}
+              date={note.createdAt}
+              key={note._id}
+              id={note._id}
+              isPinned={note.isPinned}
+            />
+          );
+        }
+      })}
       <CreateNote />
     </div>
   );

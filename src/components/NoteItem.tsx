@@ -10,19 +10,19 @@ const NoteItem = ({
   body,
   date,
   id,
-  isPin,
+  isPinned,
 }: {
   title: string;
   body: string;
   date: string;
   id: string;
-  isPin: boolean;
+  isPinned: boolean;
 }) => {
   const context = useContext(NoteContext);
   const navigate = useNavigate();
   const cleanDate = new Date(date).toLocaleDateString("en-GB");
   const token = localStorage.getItem("token");
-  const [pin, setPin] = useState(isPin);
+  const [pin, setPin] = useState(isPinned);
   async function handleDelete() {
     const res = await fetch(`${backend_url}/private/delete-content`, {
       method: "POST",
@@ -52,6 +52,24 @@ const NoteItem = ({
         },
       );
       console.log(res.data);
+      const newNote = res.data.newNote;
+      // const note: NoteType = {
+      //   _id: newNote._id,
+      //   title: newNote.title,
+      //   body: newNote.body,
+      //   createdAt: newNote.createdAt,
+      //   isPinned: newNote.isPinned,
+      // };
+      // context?.setNotes?.((notes) => notes.filter((note) => note._id !== id));
+      // context?.setNotes((notes) => [...notes, note]);
+      context?.setNotes((notes) =>
+        notes.map((note) => {
+          if (note._id === id) return { ...note, isPinned: newNote.isPinned };
+          else {
+            return note;
+          }
+        }),
+      );
       setPin((pin) => !pin);
     } catch (err) {
       console.log("err ", err);
