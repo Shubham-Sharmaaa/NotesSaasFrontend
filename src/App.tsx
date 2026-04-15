@@ -12,7 +12,12 @@ import Signin from "./pages/Signin";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import Dashboard from "./pages/Dashboard";
 import VerifyOtp from "./pages/OtpPage";
-import { createContext, useEffect, useState, type Dispatch } from "react";
+import React, {
+  createContext,
+  useEffect,
+  useState,
+  type Dispatch,
+} from "react";
 import MainWrapper from "./pages/MainWrapper";
 import axios from "axios";
 import EditNote from "./pages/EditNote";
@@ -23,6 +28,7 @@ const NoteContext = createContext<noteContextType | undefined>(undefined);
 type noteContextType = {
   notes: NoteType[];
   setNotes: Dispatch<React.SetStateAction<NoteType[]>>;
+  setisAuth: Dispatch<React.SetStateAction<boolean | null>>;
 };
 
 export type NoteType = {
@@ -44,14 +50,16 @@ function Authenticated({
   isAuth,
   notes,
   setNotes,
+  setisAuth,
 }: {
   isAuth: boolean | null;
   notes: NoteType[];
   setNotes: Dispatch<React.SetStateAction<NoteType[]>>;
+  setisAuth: Dispatch<React.SetStateAction<boolean | null>>;
 }) {
   if (isAuth === null) return <div>Loading...</div>;
   return isAuth ? (
-    <NoteContext.Provider value={{ notes, setNotes }}>
+    <NoteContext.Provider value={{ notes, setNotes, setisAuth }}>
       <Outlet />
     </NoteContext.Provider>
   ) : (
@@ -102,7 +110,12 @@ function App() {
 
         <Route
           element={
-            <Authenticated isAuth={isAuth} notes={notes} setNotes={setNotes} />
+            <Authenticated
+              setisAuth={setIsAuth}
+              isAuth={isAuth}
+              notes={notes}
+              setNotes={setNotes}
+            />
           }
         >
           <Route path="/edit-note/:id" element={<EditNote />} />

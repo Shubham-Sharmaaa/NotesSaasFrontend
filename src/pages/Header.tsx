@@ -1,8 +1,11 @@
+import { useContext } from "react";
 import { BiBell } from "react-icons/bi";
 import { BsArrowDown } from "react-icons/bs";
 import { FiFilter } from "react-icons/fi";
+import { NoteContext } from "../App";
 
 const Header = () => {
+  const context = useContext(NoteContext);
   return (
     <div className="flex gap-2 items-center justify-center h-14 px-4 border-[#EBEBEF] border-b-2">
       <div className="flex-1">
@@ -24,6 +27,15 @@ const Header = () => {
           <button className="flex gap-2 items-center border-[#EBEBEF] border-2 px-2 py-1 rounded">
             <span>Sort By Date</span>
             <BsArrowDown />
+          </button>
+          <button
+            className="bg-blue-300 border-[#EBEBEF] border-2 px-2 py-1 rounded-md"
+            onClick={() => {
+              localStorage.removeItem("token");
+              context?.setisAuth?.(false);
+            }}
+          >
+            Logout
           </button>
         </div>
       </div>

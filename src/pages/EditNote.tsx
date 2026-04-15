@@ -33,7 +33,7 @@ const EditNote = () => {
       setBody(data.note.body);
     }
     fetchnote();
-  }, []);
+  }, [id]);
   async function submitUpdatedNote() {
     const title = titleref.current?.value;
     const body = bodyref.current?.value;

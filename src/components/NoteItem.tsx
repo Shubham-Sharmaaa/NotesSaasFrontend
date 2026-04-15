@@ -1,24 +1,29 @@
-import { useContext } from "react";
-import { MdDeleteOutline } from "react-icons/md";
+import { useContext, useState } from "react";
+import { MdDeleteOutline, MdOutlinePushPin } from "react-icons/md";
 import { NoteContext } from "../App";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { RiUnpinLine } from "react-icons/ri";
 const backend_url = import.meta.env.VITE_BACKEND_URL;
 const NoteItem = ({
   title,
   body,
   date,
   id,
+  isPin,
 }: {
   title: string;
   body: string;
   date: string;
   id: string;
+  isPin: boolean;
 }) => {
   const context = useContext(NoteContext);
   const navigate = useNavigate();
   const cleanDate = new Date(date).toLocaleDateString("en-GB");
+  const token = localStorage.getItem("token");
+  const [pin, setPin] = useState(isPin);
   async function handleDelete() {
-    const token = localStorage.getItem("token");
     const res = await fetch(`${backend_url}/private/delete-content`, {
       method: "POST",
       headers: {
@@ -33,6 +38,25 @@ const NoteItem = ({
     console.log(data);
     context?.setNotes((notes) => notes.filter((note) => note._id !== id));
   }
+  async function handlePin() {
+    try {
+      const res = await axios.put(
+        `${backend_url}/private/pin-note`,
+        {
+          noteId: id,
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        },
+      );
+      console.log(res.data);
+      setPin((pin) => !pin);
+    } catch (err) {
+      console.log("err ", err);
+    }
+  }
   return (
     <div className="group flex flex-col justify-between h-52 rounded-xl border border-[#EBEBEF] bg-white p-4 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200 cursor-pointer">
       <div className="flex flex-col gap-2">
@@ -40,9 +64,14 @@ const NoteItem = ({
           <h2 className="text-lg font-semibold text-gray-800 line-clamp-1">
             {title}
           </h2>
-          <button onClick={handleDelete}>
-            <MdDeleteOutline />
-          </button>
+          <div className="flex gap-2 items-center">
+            <button onClick={handleDelete}>
+              <MdDeleteOutline />
+            </button>
+            <button onClick={handlePin}>
+              {pin ? <MdOutlinePushPin /> : <RiUnpinLine />}
+            </button>
+          </div>
         </div>
 
         <p className="text-sm text-gray-500 line-clamp-3">{body}</p>
