@@ -6,10 +6,10 @@ import { NoteContext } from "../App";
 
 const Dashboard = () => {
   const context = useContext(NoteContext);
-
+  const notDeleted = context?.notes.filter((note) => !note.isDeleted);
   return (
     <div className="grid md:grid-cols-4 p-4 gap-2 sm:grid-cols-3">
-      {context?.notes?.map((note) => {
+      {notDeleted?.map((note) => {
         if (note.isPinned) {
           return (
             <NoteItem
@@ -24,7 +24,7 @@ const Dashboard = () => {
           );
         }
       })}
-      {context?.notes?.map((note) => {
+      {notDeleted?.map((note) => {
         if (!note.isPinned) {
           return (
             <NoteItem

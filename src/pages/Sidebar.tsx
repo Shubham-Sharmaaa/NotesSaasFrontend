@@ -20,7 +20,7 @@ const Sidebar = () => {
           />
           <SidebarItem to="/favorites" title="Favorites" icon={<BsStar />} />
           <SidebarItem title="Archive" icon={<BiBox />} />
-          <SidebarItem title="Trash" icon={<BiTrash />} />
+          <SidebarItem to="/trash" title="Trash" icon={<BiTrash />} />
         </ul>
         <div className="flex flex-col gap-2">
           <span>FOLDERS</span>

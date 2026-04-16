@@ -29,8 +29,8 @@ const NoteItem = ({
   const [pin, setPin] = useState(isPinned);
   const [fav, setFav] = useState(isFavorite);
   async function handleDelete() {
-    const res = await fetch(`${backend_url}/private/delete-content`, {
-      method: "POST",
+    const res = await fetch(`${backend_url}/private/move-trash`, {
+      method: "PUT",
       headers: {
         authorization: "Bearer " + token,
         "Content-Type": "application/json",
@@ -41,7 +41,15 @@ const NoteItem = ({
     });
     const data = await res.json();
     console.log(data);
-    context?.setNotes((notes) => notes.filter((note) => note._id !== id));
+    context?.setNotes((notes) =>
+      notes.map((note) => {
+        if (note._id === id) {
+          return { ...note, isDeleted: true };
+        } else {
+          return note;
+        }
+      }),
+    );
   }
   async function handlePin() {
     try {
@@ -75,7 +83,7 @@ const NoteItem = ({
   async function handleFav() {
     try {
       const res = await axios.put(
-        `${backend_url}/private/add-favorite`,
+        `${backend_url}/private/toggle-favorite`,
         {
           noteId: id,
           isFavorite: !fav,

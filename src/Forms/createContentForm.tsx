@@ -35,6 +35,7 @@ const CreateContentForm = ({ oncloseModal }: { oncloseModal?: () => void }) => {
       createdAt: recieveddata.createdAt,
       isPinned: recieveddata.isPinned,
       isFavorite: recieveddata.isFavorite,
+      isDeleted: recieveddata.isDeleted,
     };
     context?.setNotes?.((notes: NoteType[]) => [...notes, newNote]);
     console.log("notes: ", context?.notes);
