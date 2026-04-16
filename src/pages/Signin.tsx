@@ -84,8 +84,6 @@ export default function Signin() {
           <button className={button} onClick={GoogleLogin}>
             Google
           </button>
-
-          <button className={button}>Github</button>
         </div>
         <p className="text-sm text-[#6D6E81] my-2">Or CONTINUE WITH EMAIL</p>
         <div className="flex flex-col flex-1  items-center my-10">
