@@ -41,6 +41,7 @@ export type NoteType = {
   isPinned: boolean;
   isFavorite: boolean;
   isDeleted: boolean;
+  deleteDate: string;
 };
 
 function GoogleAuthWrapper({ children }: { children: React.ReactNode }) {

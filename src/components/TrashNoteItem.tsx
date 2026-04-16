@@ -3,7 +3,7 @@ import { MdDeleteOutline } from "react-icons/md";
 import { NoteContext } from "../App";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import { formatDistanceToNow } from "date-fns";
 const backend_url = import.meta.env.VITE_BACKEND_URL;
 const TrashNoteItem = ({
   title,
@@ -20,9 +20,8 @@ const TrashNoteItem = ({
 }) => {
   const context = useContext(NoteContext);
   const navigate = useNavigate();
-  const cleanDate = new Date(date).toLocaleDateString("en-GB");
   const token = localStorage.getItem("token");
-
+  const diff = formatDistanceToNow(new Date(date));
   async function handleDelete() {
     try {
       const res = await axios.delete(`${backend_url}/private/delete-note`, {
@@ -92,7 +91,7 @@ const TrashNoteItem = ({
       </div>
 
       <div className="flex items-center justify-between pt-3 border-t border-gray-100">
-        <span className="text-xs text-gray-400">{cleanDate}</span>
+        <span className="text-xs text-gray-400">{diff}</span>
 
         <span
           className="text-xs text-blue-500 opacity-0 group-hover:opacity-100 transition"

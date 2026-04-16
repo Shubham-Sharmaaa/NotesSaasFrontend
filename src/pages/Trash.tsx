@@ -13,7 +13,7 @@ const Trash = () => {
           <TrashNoteItem
             title={note.title}
             body={note.body}
-            date={note.createdAt}
+            date={note.deleteDate}
             key={note._id}
             id={note._id}
             isPinned={note.isPinned}
