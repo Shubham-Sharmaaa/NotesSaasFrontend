@@ -14,6 +14,7 @@ const NoteItem = ({
   id,
   isPinned,
   isFavorite,
+  isArchived,
 }: {
   title: string;
   body: string;
@@ -21,6 +22,7 @@ const NoteItem = ({
   id: string;
   isPinned: boolean;
   isFavorite: boolean;
+  isArchived?: boolean;
 }) => {
   const context = useContext(NoteContext);
   const navigate = useNavigate();
@@ -110,6 +112,37 @@ const NoteItem = ({
       console.log("err ", err);
     }
   }
+  async function handleArchive() {
+    try {
+      const res = await axios.put(
+        `${backend_url}/private/toggle-archive`,
+        {
+          noteId: id,
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        },
+      );
+      console.log(res.data);
+      const newNote = res.data.newNote;
+      context?.setNotes((notes) =>
+        notes.map((note) => {
+          if (note._id === newNote._id)
+            return {
+              ...note,
+              isArchived: newNote.isArchived,
+            };
+          else {
+            return note;
+          }
+        }),
+      );
+    } catch (err) {
+      console.log("err ", err);
+    }
+  }
   return (
     <div
       onClick={() => navigate(`/edit-note/${id}`)}
@@ -122,17 +155,25 @@ const NoteItem = ({
           </h2>
           <div className="flex gap-2 items-center">
             <button
-              onClick={(e) => {
+              onClick={async (e) => {
                 e.stopPropagation();
-                handleDelete();
+                await handleFav();
+              }}
+            >
+              {fav ? <FaHeart /> : <CiHeart />}
+            </button>
+            <button
+              onClick={async (e) => {
+                e.stopPropagation();
+                await handleDelete();
               }}
             >
               <MdDeleteOutline />
             </button>
             <button
-              onClick={(e) => {
+              onClick={async (e) => {
                 e.stopPropagation();
-                handlePin();
+                await handlePin();
               }}
             >
               {pin ? <MdOutlinePushPin /> : <RiUnpinLine />}
@@ -146,20 +187,15 @@ const NoteItem = ({
       <div className="flex items-center justify-between pt-3 border-t border-gray-100">
         <span className="text-xs text-gray-400">{cleanDate}</span>
 
-        {/* <span
-          className="text-xs text-blue-500 opacity-0 group-hover:opacity-100 transition"
-          onClick={() => navigate(`/edit-note/${id}`)}
-        >
-          Open →
-        </span> */}
-        <button
-          onClick={(e) => {
+        <span
+          className="text-xs text-center text-blue-500 opacity-0 group-hover:opacity-100 transition"
+          onClick={async (e) => {
             e.stopPropagation();
-            handleFav();
+            await handleArchive();
           }}
         >
-          {fav ? <FaHeart /> : <CiHeart />}
-        </button>
+          {isArchived ? "UnArchive →" : "Archive →"}
+        </span>
       </div>
     </div>
   );

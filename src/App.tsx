@@ -25,12 +25,15 @@ import Refresher from "./components/Refresher";
 import PublicPage from "./pages/PublicPage";
 import FavoritesPage from "./pages/FavoritesPage";
 import Trash from "./pages/Trash";
+import ArchivePage from "./pages/ArchivePage";
 const backend_url = import.meta.env.VITE_BACKEND_URL;
 const NoteContext = createContext<noteContextType | undefined>(undefined);
 type noteContextType = {
   notes: NoteType[];
   setNotes: Dispatch<React.SetStateAction<NoteType[]>>;
   setisAuth: Dispatch<React.SetStateAction<boolean | null>>;
+  setquery: Dispatch<React.SetStateAction<string>>;
+  query: string;
 };
 
 export type NoteType = {
@@ -42,6 +45,7 @@ export type NoteType = {
   isFavorite: boolean;
   isDeleted: boolean;
   deleteDate: string;
+  isArchived: boolean;
 };
 
 function GoogleAuthWrapper({ children }: { children: React.ReactNode }) {
@@ -57,15 +61,21 @@ function Authenticated({
   notes,
   setNotes,
   setisAuth,
+  setquery,
+  query,
 }: {
   isAuth: boolean | null;
   notes: NoteType[];
   setNotes: Dispatch<React.SetStateAction<NoteType[]>>;
   setisAuth: Dispatch<React.SetStateAction<boolean | null>>;
+  setquery: Dispatch<React.SetStateAction<string>>;
+  query: string;
 }) {
   if (isAuth === null) return <div>Loading...</div>;
   return isAuth ? (
-    <NoteContext.Provider value={{ notes, setNotes, setisAuth }}>
+    <NoteContext.Provider
+      value={{ notes, setNotes, setisAuth, setquery, query }}
+    >
       <Outlet />
     </NoteContext.Provider>
   ) : (
@@ -81,7 +91,7 @@ function PublicRoute({ isAuth }: { isAuth: boolean | null }) {
 function App() {
   const [isAuth, setIsAuth] = useState<boolean | null>(null);
   const [notes, setNotes] = useState<NoteType[]>([]);
-
+  const [query, setquery] = useState<string>("");
   useEffect(() => {
     async function fetch() {
       const token = localStorage.getItem("token");
@@ -121,6 +131,8 @@ function App() {
               isAuth={isAuth}
               notes={notes}
               setNotes={setNotes}
+              setquery={setquery}
+              query={query}
             />
           }
         >
@@ -129,6 +141,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/favorites" element={<FavoritesPage />} />
             <Route path="/trash" element={<Trash />} />
+            <Route path="/archive" element={<ArchivePage />} />
           </Route>
         </Route>
         <Route path="/public/:hash" element={<PublicPage isAuth={isAuth} />} />

@@ -19,7 +19,7 @@ const Sidebar = () => {
             icon={<IoDocumentTextOutline />}
           />
           <SidebarItem to="/favorites" title="Favorites" icon={<BsStar />} />
-          <SidebarItem title="Archive" icon={<BiBox />} />
+          <SidebarItem to="/archive" title="Archive" icon={<BiBox />} />
           <SidebarItem to="/trash" title="Trash" icon={<BiTrash />} />
         </ul>
         <div className="flex flex-col gap-2">

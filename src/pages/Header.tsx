@@ -6,10 +6,12 @@ import { NoteContext } from "../App";
 
 const Header = () => {
   const context = useContext(NoteContext);
+
   return (
     <div className="flex gap-2 items-center justify-center h-14 px-4 border-[#EBEBEF] border-b-2">
       <div className="flex-1">
         <input
+          onChange={(e) => context?.setquery(() => e.target.value)}
           className="w-full bg-[#F9F9FB] rounded-2xl text-center "
           placeholder={`🔎 Search your notes,folders and tags...`}
         />
