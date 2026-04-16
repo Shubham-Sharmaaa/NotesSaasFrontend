@@ -4,25 +4,28 @@ import NoteItem from "../components/NoteItem";
 
 const FavoritesPage = () => {
   const context = useContext(NoteContext);
-  const notDeleted = context?.notes.filter((note) => !note.isDeleted);
+  const fav = context?.notes.filter(
+    (note) => !note.isDeleted && note.isFavorite,
+  );
   return (
-    <div className="grid md:grid-cols-4 p-4 gap-2 sm:grid-cols-3">
-      {notDeleted?.map((note) => {
-        if (note.isFavorite) {
-          return (
-            <NoteItem
-              title={note.title}
-              body={note.body}
-              date={note.createdAt}
-              key={note._id}
-              id={note._id}
-              isPinned={note.isPinned}
-              isFavorite={note.isFavorite}
-            />
-          );
-        }
-      })}
-    </div>
+    <>
+      <div className="grid md:grid-cols-4 p-4 gap-2 sm:grid-cols-3">
+        {fav?.map((note) => (
+          <NoteItem
+            title={note.title}
+            body={note.body}
+            date={note.createdAt}
+            key={note._id}
+            id={note._id}
+            isPinned={note.isPinned}
+            isFavorite={note.isFavorite}
+          />
+        ))}
+      </div>
+      {fav?.length === 0 && (
+        <div className="text-4xl flex p-4">No item in Favourites</div>
+      )}
+    </>
   );
 };
 

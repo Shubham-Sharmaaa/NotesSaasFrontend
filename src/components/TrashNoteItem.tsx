@@ -24,14 +24,19 @@ const TrashNoteItem = ({
   const token = localStorage.getItem("token");
 
   async function handleDelete() {
-    const res = await axios.put(
-      `${backend_url}/private/delete-note`,
-      { id },
-      { headers: { Authorization: "Bearer " + token } },
-    );
-    const data = res.data;
-    console.log(data);
-    context?.setNotes((notes) => notes.filter((note) => note._id === id));
+    try {
+      const res = await axios.delete(`${backend_url}/private/delete-note`, {
+        headers: { Authorization: "Bearer " + token },
+        data: { id },
+      });
+      const data = res.data;
+      console.log(data);
+      context?.setNotes((notes) =>
+        notes.filter((note) => note._id !== res.data.deletedNote._id),
+      );
+    } catch (e) {
+      console.log(e);
+    }
   }
   async function removeTrashItem() {
     try {
@@ -45,16 +50,7 @@ const TrashNoteItem = ({
         },
       );
       console.log(res.data);
-      // const resnote = res.data.note;
-      // const updatednote = {
-      //   _id: resnote._id,
-      //   title: resnote.title,
-      //   body: resnote.body,
-      //   createdAt: resnote.createdAt,
-      //   isPinned: resnote.isPinned,
-      //   isFavorite: resnote.isFavorite,
-      //   isDeleted: resnote.isDeleted,
-      // };
+
       console.log("notes before ", context?.notes);
       context?.setNotes?.((notes) =>
         notes.map((note) => {
