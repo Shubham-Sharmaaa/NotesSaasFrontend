@@ -92,7 +92,7 @@ const EditNote = () => {
                 <button>Show link</button>
               </Modal.Name>
               <Modal.Window name="link">
-                <div>{`${frontendurl}/get-note/${hash}`}</div>
+                <div>{`${frontendurl}/public/${hash}`}</div>
               </Modal.Window>
             </Modal>
           )}
