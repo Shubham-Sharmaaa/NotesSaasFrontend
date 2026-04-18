@@ -13,15 +13,16 @@ const TrashNoteItem = ({
 }: {
   title: string;
   body: string;
-  date: string;
+  date: string | null;
   id: string;
-  isPinned: boolean;
-  isFavorite: boolean;
 }) => {
   const context = useContext(NoteContext);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-  const diff = formatDistanceToNow(new Date(date));
+  let diff;
+  if (date) {
+    diff = formatDistanceToNow(new Date(date));
+  }
   async function handleDelete() {
     try {
       const res = await axios.delete(`${backend_url}/private/delete-note`, {
@@ -91,7 +92,7 @@ const TrashNoteItem = ({
       </div>
 
       <div className="flex items-center justify-between pt-3 border-t border-gray-100">
-        <span className="text-xs text-gray-400">{diff}</span>
+        <span className="text-xs text-gray-400">{date ? diff : "NUll"}</span>
 
         <span
           className="text-xs text-blue-500 opacity-0 group-hover:opacity-100 transition"

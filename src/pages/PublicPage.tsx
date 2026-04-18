@@ -18,7 +18,7 @@ const PublicPage = ({ isAuth }: { isAuth: boolean | null }) => {
   const [id, setId] = useState("");
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
-  console.log(hash);
+
   const [isOpen, setIsOpen] = useState<boolean>(false);
   useEffect(() => {
     async function fetchnote() {
@@ -35,7 +35,7 @@ const PublicPage = ({ isAuth }: { isAuth: boolean | null }) => {
       setBody(data.note.body);
     }
     fetchnote();
-  }, []);
+  }, [hash]);
 
   function redirectEdit() {
     return navigate(`/edit-note/${id}`);

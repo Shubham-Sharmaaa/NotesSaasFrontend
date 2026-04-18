@@ -45,8 +45,12 @@ const NoteItem = ({
     console.log(data);
     context?.setNotes((notes) =>
       notes.map((note) => {
-        if (note._id === id) {
-          return { ...note, isDeleted: true };
+        if (note._id === data.deletedNote._id) {
+          return {
+            ...note,
+            isDeleted: data.deletedNote.isDeleted,
+            deleteDate: data.deletedNote.deleteDate,
+          };
         } else {
           return note;
         }

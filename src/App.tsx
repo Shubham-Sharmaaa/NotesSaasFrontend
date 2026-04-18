@@ -44,7 +44,7 @@ export type NoteType = {
   isPinned: boolean;
   isFavorite: boolean;
   isDeleted: boolean;
-  deleteDate: string;
+  deleteDate: string | null;
   isArchived: boolean;
 };
 

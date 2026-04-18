@@ -22,8 +22,6 @@ const Trash = () => {
             date={note.deleteDate}
             key={note._id}
             id={note._id}
-            isPinned={note.isPinned}
-            isFavorite={note.isFavorite}
           />
         ))}
         {searcharr?.length === 0 && <div>No Result </div>}
@@ -40,8 +38,6 @@ const Trash = () => {
             date={note.deleteDate}
             key={note._id}
             id={note._id}
-            isPinned={note.isPinned}
-            isFavorite={note.isFavorite}
           />
         ))}
       </div>
