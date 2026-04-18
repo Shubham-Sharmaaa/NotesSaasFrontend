@@ -32,7 +32,7 @@ export default function Signin() {
         email: formdata.get("email"),
         password: formdata.get("password"),
       };
-      const res = await api.post("/", data, {
+      const res = await api.post("/auth", data, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -45,7 +45,7 @@ export default function Signin() {
       }
       if (result.isotp) {
         const r = await api.post(
-          "/send-otp",
+          "/auth/send-otp",
           { email: data.email },
           {
             headers: {
