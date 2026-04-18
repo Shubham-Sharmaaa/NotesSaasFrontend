@@ -8,6 +8,7 @@ import { NoteContext } from "../App";
 import Modal from "../components/Modal";
 
 const backendurl = import.meta.env.VITE_BACKEND_URL;
+const frontendurl = import.meta.env.VITE_FRONTEND_URL;
 const EditNote = () => {
   const { id } = useParams();
 
@@ -91,7 +92,7 @@ const EditNote = () => {
                 <button>Show link</button>
               </Modal.Name>
               <Modal.Window name="link">
-                <div>{`${backendurl}/get-note/${hash}`}</div>
+                <div>{`${frontendurl}/get-note/${hash}`}</div>
               </Modal.Window>
             </Modal>
           )}
