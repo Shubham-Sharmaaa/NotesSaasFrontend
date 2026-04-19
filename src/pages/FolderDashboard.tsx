@@ -13,6 +13,7 @@ const FolderDashboard = () => {
           id={folder._id}
           name={folder.name}
           date={folder.createdAt}
+          count={folder.noteCount}
         />
       ))}
       <CreateFolder />

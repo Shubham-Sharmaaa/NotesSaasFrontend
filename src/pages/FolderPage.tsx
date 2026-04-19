@@ -56,7 +56,7 @@ const FolderPage = () => {
           No item in {folder?.name}
         </div>
       )}
-      <AddNoteToFolder setNotes={setNotes} />
+      <AddNoteToFolder notes={notes} setNotes={setNotes} />
     </div>
   );
 };

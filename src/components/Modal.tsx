@@ -6,6 +6,7 @@ import React, {
   type ReactElement,
 } from "react";
 import { createPortal } from "react-dom";
+import { BiX } from "react-icons/bi";
 type ModalContextType = {
   name: string;
   open: (name: string) => void;
@@ -52,20 +53,25 @@ export function Window({
   setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const context = useContext(ModalContext);
+  const closeLocal = () => setIsOpen?.(false);
   if (!windowName) {
     if (!isOpen || !setIsOpen) return null;
     return createPortal(
-      <div className="fixed top-0 left-0 w-full h-screen backdrop-blur-2xl z-1000 transition-all ">
-        <div className="bg-[#c0bbbb] fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] rounded-lg py-[3.2rem] px-16 transition-all ">
+      <div className="fixed inset-0 z-1000 flex items-center justify-center">
+        <div
+          onClick={closeLocal}
+          className="absolute inset-0 bg-black/30 backdrop-blur-sm"
+        />
+
+        <div className="relative z-10 w-[90%] max-w-md rounded-2xl bg-white p-6 shadow-2xl animate-in fade-in zoom-in-95">
           <button
-            className="absolute top-0 left-0 p-2"
-            onClick={() => setIsOpen(false)}
+            onClick={closeLocal}
+            className="absolute top-4 right-4 p-1 rounded-md text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition"
           >
-            close
+            <BiX size={18} />
           </button>
-          <div>
-            {cloneElement(children, { oncloseModal: () => setIsOpen(false) })}
-          </div>
+
+          {cloneElement(children, { oncloseModal: closeLocal })}
         </div>
       </div>,
       document.body,
@@ -75,12 +81,21 @@ export function Window({
   const { name, close } = context;
   if (name !== windowName) return null;
   return createPortal(
-    <div className="fixed top-0 left-0 w-full h-screen backdrop-blur-xs z-1000 transition-all ">
-      <div className="bg-[#c0bbbb] fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] rounded-lg py-[3.2rem] px-16 transition-all ">
-        <button className="absolute top-0 left-0 p-2" onClick={close}>
-          close
+    <div className="fixed inset-0 z-1000 flex items-center justify-center">
+      <div
+        onClick={close}
+        className="absolute inset-0 bg-black/30 backdrop-blur-sm"
+      />
+
+      <div className="relative z-10 w-[90%] max-w-md rounded-2xl bg-white p-6 shadow-2xl animate-in fade-in zoom-in-95">
+        <button
+          onClick={close}
+          className="absolute top-4 right-4 p-1 rounded-md text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition"
+        >
+          <BiX size={18} />
         </button>
-        <div>{cloneElement(children, { oncloseModal: close })}</div>
+
+        {cloneElement(children, { oncloseModal: close })}
       </div>
     </div>,
     document.body,

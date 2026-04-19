@@ -40,12 +40,16 @@ function OptionsItem({
     // if(res.data)
   }
   return (
-    <div className="bg-gray-400 w-full flex justify-between px-2 py-1">
-      <span>{title}</span>
-      <button onClick={AddNoteToFolder}>
-        <BiPlus />
+    <li className="group flex items-center justify-between px-4 py-3 hover:bg-gray-50 transition cursor-pointer">
+      <span className="text-sm text-gray-700 truncate">{title}</span>
+
+      <button
+        onClick={AddNoteToFolder}
+        className="opacity-0 group-hover:opacity-100 transition p-1 rounded-md hover:bg-blue-100 hover:text-blue-600"
+      >
+        <BiPlus size={18} />
       </button>
-    </div>
+    </li>
   );
 }
 export default OptionsItem;

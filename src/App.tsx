@@ -58,6 +58,7 @@ export type FolderType = {
   isDeleted: boolean;
   createdAt: string;
   deletedDate: string;
+  noteCount: number;
 };
 function GoogleAuthWrapper({ children }: { children: React.ReactNode }) {
   return (
@@ -179,7 +180,7 @@ function App() {
             <Route path="/favorites" element={<FavoritesPage />} />
             <Route path="/trash" element={<Trash />} />
             <Route path="/archive" element={<ArchivePage />} />
-            <Route path="/folder" element={<FolderDashboard />}></Route>
+            <Route path="/folders" element={<FolderDashboard />}></Route>
             <Route path="/folder/:folderId" element={<FolderPage />} />
           </Route>
         </Route>

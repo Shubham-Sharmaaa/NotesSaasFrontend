@@ -4,10 +4,12 @@ const FolderItem = ({
   id,
   name,
   date,
+  count,
 }: {
   id: string;
   name: string;
   date: string;
+  count: number;
 }) => {
   // const context = useContext(NoteContext);
   const navigate = useNavigate();
@@ -28,7 +30,7 @@ const FolderItem = ({
         </button>
       </div>
 
-      <div className="mt-3 text-sm text-gray-500">12 notes</div>
+      <div className="mt-3 text-sm text-gray-500">{count}</div>
 
       <div className="text-xs text-gray-400 mt-1">{cleanDate}</div>
     </div>

@@ -13,46 +13,65 @@ const Sidebar = () => {
   const context = useContext(NoteContext);
 
   return (
-    <div className="w-50   flex flex-col  pt-4 border-[#E4E4E8] border-2 h-screen bg-[#F9F9FB]">
-      <div className="flex flex-col items-center gap-4 flex-1">
+    <div className="w-50 flex flex-col h-screen bg-[#FAFAFB] border-r border-gray-200 justify-center items-center ">
+      <div className="px-5 py-4">
         <LOGO />
-        <ul className="flex flex-col gap-2">
-          <SidebarItem
-            to="/dashboard"
-            title="All Notes"
-            icon={<IoDocumentTextOutline />}
-          />
-          <SidebarItem to="/favorites" title="Favorites" icon={<BsStar />} />
-          <SidebarItem to="/archive" title="Archive" icon={<BiBox />} />
-          <SidebarItem to="/trash" title="Trash" icon={<BiTrash />} />
-        </ul>
-        <div className="flex flex-col gap-2">
-          <SidebarItem to="/folder" title="FOLDERS" icon={<BiFolder />} />
-          <ul className="flex flex-col gap-2">
+      </div>
+
+      <div className="flex-1 overflow-y-auto px-3 space-y-6 ">
+        <div className="">
+          <ul className="space-y-1">
+            <SidebarItem
+              to="/dashboard"
+              title="All Notes"
+              icon={<IoDocumentTextOutline />}
+            />
+            <SidebarItem to="/favorites" title="Favorites" icon={<BsStar />} />
+            <SidebarItem to="/archive" title="Archive" icon={<BiBox />} />
+            <SidebarItem to="/trash" title="Trash" icon={<BiTrash />} />
+            <SidebarItem to="/folders" title="My Folders" icon={<BiFolder />} />
+          </ul>
+        </div>
+
+        {/* FOLDERS */}
+        <div>
+          <p className="text-[11px] font-semibold text-gray-400 px-3 mb-2 uppercase tracking-wider">
+            FOLDERS
+          </p>
+
+          <ul className="space-y-1">
             {context?.folders.map((folder, i) => {
               if (i < 5) {
                 return (
                   <SidebarItem
-                    to={`/folder/${folder._id}`}
+                    to={`/folder/${folder._id}`} // ✅ unchanged
                     title={folder.name}
                     icon={<BiFolderOpen />}
-                    key={i}
+                    key={folder._id}
+                    nested
                   />
                 );
               }
             })}
           </ul>
         </div>
-        <div className="flex flex-col gap-2">
-          <span>TAGS</span>
-          <ul className="flex flex-col gap-2">
+
+        {/* TAGS */}
+        <div>
+          <p className="text-[11px] font-semibold text-gray-400 px-3 mb-2 uppercase tracking-wider">
+            TAGS
+          </p>
+
+          <ul className="space-y-1">
             {tags.map((tag, i) => (
-              <SidebarItem title={tag} icon={<CiHashtag />} key={i} />
+              <SidebarItem title={tag} icon={<CiHashtag />} key={i} nested />
             ))}
           </ul>
         </div>
       </div>
-      <div className="h-20 flex items-center justify-center border-t-2 border-[#E7E7ED]">
+
+      {/* PROFILE */}
+      <div className="px-3 py-3 border-t border-gray-200">
         <Profile pic="profile.png" Name="Shubham" plan="free plan" />
       </div>
     </div>
