@@ -11,7 +11,6 @@ export default function Signin() {
       if (authResult["code"]) {
         const response = await googleAuth(authResult["code"]);
 
-        console.log(response);
         localStorage.setItem("token", response.token);
         window.location.href = "/dashboard";
       }
@@ -54,9 +53,8 @@ export default function Signin() {
           },
         );
         const rd = r.data;
-        console.log("before success", rd);
+
         if (rd.success) {
-          console.log("in success");
           navigate("/auth/verify-otp", {
             state: {
               email: data.email,

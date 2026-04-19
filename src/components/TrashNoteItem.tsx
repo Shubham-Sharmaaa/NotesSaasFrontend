@@ -29,8 +29,7 @@ const TrashNoteItem = ({
         headers: { Authorization: "Bearer " + token },
         data: { id },
       });
-      const data = res.data;
-      console.log(data);
+
       context?.setNotes((notes) =>
         notes.filter((note) => note._id !== res.data.deletedNote._id),
       );
@@ -49,19 +48,17 @@ const TrashNoteItem = ({
           },
         },
       );
-      console.log(res.data);
-
-      console.log("notes before ", context?.notes);
-      context?.setNotes?.((notes) =>
-        notes.map((note) => {
-          if (note._id === id) {
-            return { ...note, isDeleted: false };
-          } else {
-            return note;
-          }
-        }),
-      );
-      console.log("notes after ", context?.notes);
+      const resnote = res.data.note;
+      if (resnote)
+        context?.setNotes?.((notes) =>
+          notes.map((note) => {
+            if (note._id === resnote._id) {
+              return { ...note, isDeleted: resnote.isDeleted };
+            } else {
+              return note;
+            }
+          }),
+        );
     } catch (err) {
       console.log("error ", err);
     }

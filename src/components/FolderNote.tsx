@@ -7,7 +7,7 @@ import { RiUnpinLine } from "react-icons/ri";
 import { CiHeart } from "react-icons/ci";
 import { FaHeart } from "react-icons/fa";
 const backend_url = import.meta.env.VITE_BACKEND_URL;
-const NoteItem = ({
+const FolderNote = ({
   title,
   body,
   date,
@@ -204,4 +204,4 @@ const NoteItem = ({
     </div>
   );
 };
-export default NoteItem;
+export default FolderNote;

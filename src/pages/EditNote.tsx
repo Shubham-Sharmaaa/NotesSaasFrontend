@@ -6,6 +6,7 @@ import { FaCameraRetro } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
 import { NoteContext } from "../App";
 import Modal from "../components/Modal";
+import { PiPlus } from "react-icons/pi";
 
 const backendurl = import.meta.env.VITE_BACKEND_URL;
 const frontendurl = import.meta.env.VITE_FRONTEND_URL;
@@ -56,13 +57,11 @@ const EditNote = () => {
       }),
     });
     const data = await res.json();
-    console.log(data);
-    console.log(context?.notes);
+
     context?.setNotes((notes) => notes.filter((note) => note._id !== id));
 
     context?.setNotes((notes) => [...notes, data.note]);
 
-    console.log(context?.notes);
     navigate(-1);
   }
   async function createLink() {
@@ -115,6 +114,13 @@ const EditNote = () => {
           >
             <FaCameraRetro />
             <span>Save Note</span>
+          </button>
+          <button
+            onClick={submitUpdatedNote}
+            className="flex items-center gap-2 bg-[#1FD5F9] text-[#F1FDFF] py-1 px-2 rounded-lg "
+          >
+            <PiPlus />
+            <span>Add to Folder</span>
           </button>
         </div>
       </div>

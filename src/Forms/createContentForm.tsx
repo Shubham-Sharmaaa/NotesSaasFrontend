@@ -15,7 +15,6 @@ const CreateContentForm = ({ oncloseModal }: { oncloseModal?: () => void }) => {
       body: formData.get("body"),
       isFavorite: formData.get("isFavorite") === "on",
     };
-    console.log("data ", data);
 
     const res = await axios.post(
       `${backend_url}/private/create-content`,
@@ -26,7 +25,7 @@ const CreateContentForm = ({ oncloseModal }: { oncloseModal?: () => void }) => {
         },
       },
     );
-    console.log(res.data);
+
     const recieveddata = res.data.newContent;
     const newNote: NoteType = {
       _id: recieveddata._id,
