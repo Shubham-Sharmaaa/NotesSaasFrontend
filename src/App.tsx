@@ -118,8 +118,9 @@ function App() {
   const [query, setquery] = useState<string>("");
   const [folder, setFolder] = useState<FolderType[]>([]);
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
     async function fetchFolders() {
-      const token = localStorage.getItem("token");
       const res = await axios.get(`${backend_url}/private/all-folders`, {
         headers: {
           Authorization: "Bearer " + token,
@@ -129,7 +130,6 @@ function App() {
       setFolder(res.data.folders);
     }
     async function fetchNotes() {
-      const token = localStorage.getItem("token");
       const res = await axios.get(`${backend_url}/private/all-content`, {
         headers: {
           Authorization: "Bearer " + token,
