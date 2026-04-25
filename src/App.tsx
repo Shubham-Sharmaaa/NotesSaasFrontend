@@ -120,6 +120,33 @@ function App() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) return;
+    async function init() {
+      const valid = await test();
+      if (!valid) return;
+      await fetchNotes();
+      await fetchFolders();
+    }
+
+    async function test() {
+      const token = localStorage.getItem("token");
+      if (!token) return false;
+
+      try {
+        const res = await axios.get(`${backend_url}/private/test`, {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        });
+        if (res.data) {
+          return true;
+        } else {
+          return false;
+        }
+      } catch {
+        return false;
+      }
+    }
+
     async function fetchFolders() {
       const res = await axios.get(`${backend_url}/private/all-folders`, {
         headers: {
@@ -138,8 +165,7 @@ function App() {
 
       setNotes(res.data.notes);
     }
-    fetchNotes();
-    fetchFolders();
+    init();
   }, []);
   return (
     <BrowserRouter>
