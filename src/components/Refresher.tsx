@@ -5,23 +5,20 @@ const Refresher = ({ setAuth }: { setAuth: (value: boolean) => void }) => {
   useEffect(() => {
     async function test() {
       const token = localStorage.getItem("token");
+      if (!token) return setAuth(false);
 
-      if (token) {
-        try {
-          const res = await axios.get(`${backend_url}/private/test`, {
-            headers: {
-              Authorization: "Bearer " + token,
-            },
-          });
-          if (res.data) {
-            setAuth(true);
-          } else {
-            setAuth(false);
-          }
-        } catch {
+      try {
+        const res = await axios.get(`${backend_url}/private/test`, {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        });
+        if (res.data) {
+          setAuth(true);
+        } else {
           setAuth(false);
         }
-      } else {
+      } catch {
         setAuth(false);
       }
     }

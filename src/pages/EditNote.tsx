@@ -91,7 +91,9 @@ const EditNote = () => {
                 <button>Show link</button>
               </Modal.Name>
               <Modal.Window name="link">
-                <div>{`${frontendurl}/public/${hash}`}</div>
+                <a href={`${frontendurl}/public/${encodeURIComponent(hash)}`}>
+                  <div>Share</div>
+                </a>
               </Modal.Window>
             </Modal>
           )}

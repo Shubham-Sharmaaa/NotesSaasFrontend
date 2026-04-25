@@ -12,7 +12,7 @@ import { useParams } from "react-router-dom";
 
 const PublicPage = ({ isAuth }: { isAuth: boolean | null }) => {
   const { hash } = useParams();
-
+  const decodedHash = decodeURIComponent(hash!);
   const navigate = useNavigate();
 
   const [id, setId] = useState("");
@@ -23,19 +23,22 @@ const PublicPage = ({ isAuth }: { isAuth: boolean | null }) => {
   useEffect(() => {
     async function fetchnote() {
       const token = localStorage.getItem("token");
-      const res = await fetch(`${backendurl}/get-note/${hash}`, {
-        method: "GET",
-        headers: {
-          authorization: "Bearer " + token,
+      const res = await fetch(
+        `${backendurl}/get-note/${encodeURIComponent(decodedHash)}`,
+        {
+          method: "GET",
+          headers: {
+            authorization: "Bearer " + token,
+          },
         },
-      });
+      );
       const data = await res.json();
       setId(data.note.id);
       setTitle(data.note.title);
       setBody(data.note.body);
     }
     fetchnote();
-  }, [hash]);
+  }, [decodedHash]);
 
   function redirectEdit() {
     return navigate(`/edit-note/${id}`);
